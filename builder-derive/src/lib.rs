@@ -42,6 +42,17 @@ fn impl_builder_trait(ast: DeriveInput) -> TokenStream {
         )
     });
 
+    let builder_methods = fields.iter().map(|field| {
+        let field_name = field.ident.as_ref().expect("Expected field name");
+        let field_type = &field.ty;
+        quote::quote!(
+            fn #field_name(&mut self, value: #field_type) -> &mut Self {
+                self.#field_name = Some(value);
+                self
+            }
+        )
+    });
+
     let instance_field_values = fields.iter().map(|field| {
         let field_name = field.ident.as_ref().expect("Expected field name");
         quote::quote!(
@@ -66,6 +77,8 @@ fn impl_builder_trait(ast: DeriveInput) -> TokenStream {
                     #(#builder_field_values)*
                 }
             }
+
+            #(#builder_methods)*
 
             fn build(&self) -> #ident {
                 #ident {

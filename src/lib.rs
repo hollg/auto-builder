@@ -1,13 +1,16 @@
 use builder_derive::Builder;
 
-#[derive(Builder)]
+#[derive(Builder, Debug)]
 struct Foo {
     a: i32,
 }
 
 fn main() {
-    let foo_builder: FooBuilder = FooBuilder::new();
-    dbg!(foo_builder);
+    let mut foo_builder = FooBuilder::new();
+    foo_builder.a(1);
+
+    let foo = foo_builder.build();
+    dbg!(foo);
     
 }
 
