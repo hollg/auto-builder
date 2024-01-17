@@ -35,20 +35,41 @@ fn impl_builder_trait(ast: DeriveInput) -> TokenStream {
         )
     });
 
+    let builder_field_values = fields.iter().map(|field| {
+        let field_name = field.ident.as_ref().expect("Expected field name");
+        quote::quote!(
+            #field_name: None,
+        )
+    });
+
+    let instance_field_values = fields.iter().map(|field| {
+        let field_name = field.ident.as_ref().expect("Expected field name");
+        quote::quote!(
+            #field_name: self.#field_name.clone().expect("Expected field to be set"),
+        )
+    });
+
     // Clone the iterator to avoid using it after it's been moved
     // TODO: figure out how to avoid this clone
-    // let builder_fields_clone = builder_fields.clone();
+    let builder_fields_clone = builder_fields.clone();
 
     quote::quote!(
         #[derive(Debug)]
         struct #builder_struct_name {
-            // #(#builder_fields)*
+            #(#builder_fields)*
         }
 
         impl #builder_struct_name {
+
+            fn new() -> #builder_struct_name {
+                #builder_struct_name {
+                    #(#builder_field_values)*
+                }
+            }
+
             fn build(&self) -> #ident {
                 #ident {
-                    #(#builder_fields)*
+                    #(#instance_field_values)*
                 }
             }
         }
