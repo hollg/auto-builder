@@ -1,21 +1,30 @@
 pub use builder_derive::Builder;
 
-#[derive(Builder, Debug)]
-struct Foo {
-    a: i32,
-    b: Option<i32>,
-}
+#[cfg(test)]
+mod test {
+    use super::*;
+    // test main
+    #[test]
+    fn returns_err_if_not_all_fields_set() {
+        #[derive(Builder)]
+        struct Foo {
+            _a: i32,
+            _b: Option<i32>,
+        }
 
-fn main() {
-    let mut foo_builder = FooBuilder::new();
-    foo_builder.a(1).b(Some(2));
+        let foo = FooBuilder::new()._a(1).build();
+        assert!(foo.is_err());
+    }
 
-    let foo = foo_builder.build();
-    dbg!(foo);
-}
+    #[test]
+    fn returns_ok_if_all_fields_set() {
+        #[derive(Builder)]
+        struct Foo {
+            _a: i32,
+            _b: Option<i32>,
+        }
 
-// test main
-#[test]
-fn test_main() {
-    main();
+        let foo = FooBuilder::new()._a(1)._b(Some(2)).build();
+        assert!(foo.is_ok());
+    }
 }
