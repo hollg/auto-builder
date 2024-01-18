@@ -1,4 +1,4 @@
-use builder_derive::Builder;
+pub use builder_derive::Builder;
 
 #[derive(Builder, Debug)]
 struct Foo {
