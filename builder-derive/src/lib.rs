@@ -8,10 +8,10 @@ pub fn builder_derive_macro(item: TokenStream) -> TokenStream {
     let ast: DeriveInput = syn::parse(item).unwrap();
 
     // generate
-    impl_builder_trait(ast)
+    impl_builder_struct(ast)
 }
 
-fn impl_builder_trait(ast: DeriveInput) -> TokenStream {
+fn impl_builder_struct(ast: DeriveInput) -> TokenStream {
     // Get identifier of target struct
     let ident = ast.ident;
 
