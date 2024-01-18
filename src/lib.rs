@@ -3,6 +3,7 @@ use builder_derive::Builder;
 #[derive(Builder, Debug)]
 struct Foo {
     a: i32,
+    b: Option<i32>,
 }
 
 fn main() {
@@ -11,7 +12,6 @@ fn main() {
 
     let foo = foo_builder.build();
     dbg!(foo);
-    
 }
 
 // test main
