@@ -8,7 +8,7 @@ struct Foo {
 
 fn main() {
     let mut foo_builder = FooBuilder::new();
-    foo_builder.a(1);
+    foo_builder.a(1).b(Some(2));
 
     let foo = foo_builder.build();
     dbg!(foo);

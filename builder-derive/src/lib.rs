@@ -60,6 +60,15 @@ fn impl_builder_struct(ast: DeriveInput) -> TokenStream {
         )
     });
 
+    let checks_for_builder = fields.iter().map(|field| {
+        let field_name = field.ident.as_ref().expect("Expected field name");
+        quote::quote!(
+            if self.#field_name.is_none() {
+                return Err(format!("Expected field to be set: {}", stringify!(#field_name).to_string()));
+            }
+        )
+    });
+
     quote::quote!(
         #[derive(Debug)]
         struct #builder_struct_name {
@@ -76,10 +85,11 @@ fn impl_builder_struct(ast: DeriveInput) -> TokenStream {
 
             #(#builder_methods)*
 
-            fn build(&self) -> #ident {
-                #ident {
+            fn build(&self) -> Result<#ident, String> {
+                #(#checks_for_builder)*
+                Ok(#ident {
                     #(#instance_field_values)*
-                }
+                })
             }
         }
 
