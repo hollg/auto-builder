@@ -26,5 +26,4 @@ fn returns_ok_if_all_fields_set() {
     let instance = _foo.unwrap();
     assert!(instance._a == 1);
     assert!(instance._b == Some(2));
-
 }
