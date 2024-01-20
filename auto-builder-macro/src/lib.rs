@@ -12,6 +12,7 @@ pub fn builder_derive_macro(item: TokenStream) -> TokenStream {
 }
 
 struct BuilderBuilder {
+    /// The AST of the struct we're deriving the builder for
     ast: DeriveInput,
 }
 
@@ -138,3 +139,5 @@ impl BuilderBuilder {
         .into()
     }
 }
+
+struct UninitializedFieldError(String);

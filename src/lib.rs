@@ -1,4 +1,4 @@
-pub use builder_derive::Builder;
+pub use auto_builder_macro::Builder;
 
 #[cfg(test)]
 mod test {
