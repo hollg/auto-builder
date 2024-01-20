@@ -3,8 +3,10 @@ name = "auto-builder-macro"
 version = "0.1.0"
 edition = "2021"
 license = "MIT"
-keywords = ["builder", "design pattern", "macro", "derive"]
-
+keywords = ["builder", "design_pattern", "macro", "derive"]
+description = "A derive macro to implement the builder pattern for any struct"
+repository = "https://github.com/hollg/auto-builder"
+documentation = "https://github.com/hollg/auto-builder"
 [lib]
 proc-macro = true
 
