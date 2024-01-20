@@ -11,7 +11,7 @@ env:
 
 jobs:
   style:
-    name: Style check
+    name: Check formatting
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
