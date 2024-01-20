@@ -38,7 +38,6 @@ impl BuilderBuilder {
                 quote::quote!(
                     #field_name: Option::<#field_type>,
                 )
-                .into()
             })
             .collect::<Vec<_>>()
     }
