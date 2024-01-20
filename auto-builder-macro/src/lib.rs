@@ -1,6 +1,6 @@
+use auto_builder_core::BuilderBuilder;
 use proc_macro::TokenStream;
 use syn::DeriveInput;
-use auto_builder_core::BuilderBuilder;
 
 /// Implement the builder pattern for the target struct
 #[proc_macro_derive(Builder)]

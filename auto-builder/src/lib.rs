@@ -11,10 +11,10 @@
 //!   bar: i32,
 //!   baz: String,
 //! }
-//! 
+//!
 //! let complete_foo = FooBuilder::new().bar(42).baz("hello".to_string()).build()
 //! let incomplete_foo = FooBuilder::new().bar(42).build();
-//! 
+//!
 //! assert!(complete_foo.is_ok());
 //! assert!(incomplete_foo.is_err());
 //! ```
