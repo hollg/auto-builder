@@ -139,5 +139,3 @@ impl BuilderBuilder {
         .into()
     }
 }
-
-struct UninitializedFieldError(String);
