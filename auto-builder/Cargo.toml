@@ -2,8 +2,14 @@
 name = "auto-builder"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+keywords = ["builder", "design_pattern", "macro", "derive"]
+description = "A derive macro to implement the builder pattern for any struct"
+repository = "https://github.com/hollg/auto-builder"
+documentation = "https://github.com/hollg/auto-builder"
+
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-auto-builder-macro = { path = "../auto-builder-macro"}
+auto-builder-macro = { version = "=0.1.0", path = "../auto-builder-macro" }

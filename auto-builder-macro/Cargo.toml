@@ -7,6 +7,7 @@ keywords = ["builder", "design_pattern", "macro", "derive"]
 description = "A derive macro to implement the builder pattern for any struct"
 repository = "https://github.com/hollg/auto-builder"
 documentation = "https://github.com/hollg/auto-builder"
+
 [lib]
 proc-macro = true
 
