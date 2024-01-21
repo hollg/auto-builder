@@ -4,11 +4,28 @@ use syn::{punctuated::Punctuated, token::Comma, DeriveInput, Field};
 pub struct BuilderBuilder {
     /// The AST of the struct we're deriving the builder for
     ast: DeriveInput,
+    // If `true`, the builder will set all fields to their default values. The deriving struct must implement `Default`.
+    should_default: bool,
 }
 
 impl BuilderBuilder {
     pub fn new(ast: DeriveInput) -> Self {
-        Self { ast }
+        let should_default = ast
+            .attrs
+            .iter()
+            .filter(|attr| attr.path().is_ident("builder"))
+            .any(|attr| {
+                if let Ok(value) = attr.parse_args::<TokenStream>() {
+                    value.to_string() == "default"
+                } else {
+                    false
+                }
+            });
+
+        Self {
+            ast,
+            should_default,
+        }
     }
 
     fn ident(&self) -> &syn::Ident {
@@ -33,15 +50,28 @@ impl BuilderBuilder {
     }
 
     fn builder_field_values(&self) -> Vec<TokenStream> {
-        self.target_fields()
-            .iter()
-            .map(|field| {
-                let field_name = field.ident.as_ref().expect("Expected field name");
-                quote::quote!(
-                    #field_name: None,
-                )
-            })
-            .collect()
+        match self.should_default {
+            true => self
+                .target_fields()
+                .iter()
+                .map(|field| {
+                    let field_name = field.ident.as_ref().expect("Expected field name");
+                    quote::quote!(
+                        #field_name: Some(Default::default()),
+                    )
+                })
+                .collect(),
+            false => self
+                .target_fields()
+                .iter()
+                .map(|field| {
+                    let field_name = field.ident.as_ref().expect("Expected field name");
+                    quote::quote!(
+                        #field_name: None,
+                    )
+                })
+                .collect(),
+        }
     }
 
     fn builder_methods(&self) -> Vec<TokenStream> {
@@ -107,6 +137,7 @@ impl BuilderBuilder {
                 #(#builder_fields)*
             }
 
+            #[allow(dead_code)]
             impl #builder_struct_name {
                 fn new() -> #builder_struct_name {
                     #builder_struct_name {
