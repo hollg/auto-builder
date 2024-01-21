@@ -1,6 +1,6 @@
 [package]
 name = "auto-builder-macro"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 license = "MIT"
 keywords = ["builder", "design_pattern", "macro", "derive"]
@@ -13,7 +13,7 @@ proc-macro = true
 
 
 [dependencies]
-auto-builder-core = { version = "0.1.0", path = "../auto-builder-core" }
+auto-builder-core = { version = "0.2.0", path = "../auto-builder-core" }
 proc-macro2 = "1.0.76"
 quote = "1.0.35"
 syn = "2.0.48"
