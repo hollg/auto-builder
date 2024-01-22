@@ -18,5 +18,20 @@
 //! assert!(complete_foo.is_ok());
 //! assert!(incomplete_foo.is_err());
 //! ```
+//! ## Default values
+//! If your struct implements `Default` then you can use the `default` attribute to set the default values for any fields that have not been set.
+//! ```
+//! use auto_builder::Builder;
+//!
+//! #[derive(Builder, Default)]
+//! #[builder(default)]
+//! struct Foo {
+//!  bar: i32,
+//! baz: String,
+//! }
+//!
+//! let foo_with_default_baz = FooBuilder::new().bar(42).build();
+//!
+//! assert!(foo_with_default_baz.is_ok());
 
 pub use auto_builder_macro::Builder;
