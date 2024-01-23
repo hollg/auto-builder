@@ -1,4 +1,4 @@
-use auto_builder_core::{BasicBuilderBuilder, BuilderBuilder};
+use auto_builder_core::{BasicBuilderBuilder, BuilderBuilder, GenericBuilderBuilder};
 use proc_macro::TokenStream;
 use syn::DeriveInput;
 
@@ -15,8 +15,26 @@ pub fn builder_derive_macro(item: TokenStream) -> TokenStream {
             }
     });
 
-    match should_default {
-        true => BasicBuilderBuilder::new(ast).build_builder_default().into(),
-        false => BasicBuilderBuilder::new(ast).build_builder().into(),
+    let is_generic = ast.generics.params.iter().any(|param| {
+        matches!(param, syn::GenericParam::Type(_))
+    });
+
+    match (should_default, is_generic) {
+        (true, true) => {
+            let builder_builder = GenericBuilderBuilder::<i32>::new(ast);
+            builder_builder.build_builder_default().into()
+        }
+        (false, true) => {
+            let builder_builder = GenericBuilderBuilder::<i32>::new(ast);
+            builder_builder.build_builder().into()
+        }
+        (true, false) => {
+            let builder_builder = BasicBuilderBuilder::new(ast);
+            builder_builder.build_builder_default().into()
+        }
+        (false, false) => {
+            let builder_builder = BasicBuilderBuilder::new(ast);
+            builder_builder.build_builder().into()
+        }
     }
 }
